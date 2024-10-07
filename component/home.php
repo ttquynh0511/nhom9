@@ -152,7 +152,7 @@
             <div class="title1">Đặt Bàn<br /></div>
             <div class="title2">Đặt bàn ngay,nhận ưu đãi liền tay</div>
         </div>
-        <form class="reservation-form">
+        <form class="reservation-form" id="reservationForm">
             <div class="form-group">
                 <label for="location">Số bàn</label>
                 <input list="locations" id="location" name="location" placeholder="Chọn hoặc nhập số bàn">
@@ -168,6 +168,7 @@
                     <option value="9">
                     <option value="10">
                 </datalist>
+                <small id="locationError" style="color: red; display: none;">Số bàn phải từ 1 đến 10</small>
             </div>
 
             <div class="form-group" id="soluong">
@@ -180,18 +181,43 @@
                     <option value="4 người">
                     <option value="5 người">
                 </datalist>
-            </div>
-            <div class="form-group">
-                <label for="date">Ngày</label>
-                <input type="date" id="date" name="date">
-            </div>
-            <div class="form-group" id="thoi">
-                <label for="time">Thời gian</label>
-                <input type="time" id="time" name="time">
+                <small id="guestsError" style="color: red; display: none;">Số lượng khách phải từ 1 đến 5</small>
             </div>
             <button type="submit" class="submit-button">Đặt Bàn Ngay</button>
         </form>
     </div>
+
+    <script>
+        document.getElementById('reservationForm').addEventListener('submit', function(event) {
+            let valid = true;
+
+            const locationInput = document.getElementById('location').value;
+            const guestsInput = document.getElementById('guests').value;
+
+            // Validate table number (between 1 and 10)
+            const locationError = document.getElementById('locationError');
+            if (locationInput < 1 || locationInput > 10 || isNaN(locationInput)) {
+                locationError.style.display = 'block';
+                valid = false;
+            } else {
+                locationError.style.display = 'none';
+            }
+
+            // Validate guests number (between 1 and 5)
+            const guestsError = document.getElementById('guestsError');
+            const guestCount = parseInt(guestsInput);
+            if (guestCount < 1 || guestCount > 5 || isNaN(guestCount)) {
+                guestsError.style.display = 'block';
+                valid = false;
+            } else {
+                guestsError.style.display = 'none';
+            }
+
+            if (!valid) {
+                event.preventDefault(); // Prevent form submission if validation fails
+            }
+        });
+    </script>
 </body>
 
 </html>
