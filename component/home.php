@@ -1,3 +1,32 @@
+<?php
+
+include('../configs/database.php'); // Kết nối cơ sở dữ liệu
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Lấy dữ liệu từ form
+    $table = $_POST['table'];
+    $guests = $_POST['guests'];
+
+    // Kiểm tra xem số bàn đã tồn tại trong cơ sở dữ liệu chưa
+    $check_sql = "SELECT * FROM tables WHERE table_num = '$table'";
+    $result = mysqli_query($conn, $check_sql);
+
+    if (mysqli_num_rows($result) > 0) {
+        // Nếu số bàn đã tồn tại
+        echo "<script>alert('Số bàn này đã được đặt trước. Vui lòng chọn số bàn khác.');</script>";
+    } else {
+        // Thực hiện thêm mới nếu số bàn chưa tồn tại
+        $sql = "INSERT INTO tables (table_num, seats) VALUES ('$table', '$guests')";
+
+        if (mysqli_query($conn, $sql)) {
+            header("location: http://localhost/quynh/component/page.php");
+        } else {
+            echo "Lỗi: " . mysqli_error($conn);
+        }
+    }
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -152,10 +181,10 @@
             <div class="title1">Đặt Bàn<br /></div>
             <div class="title2">Đặt bàn ngay,nhận ưu đãi liền tay</div>
         </div>
-        <form class="reservation-form" id="reservationForm">
+        <form class="reservation-form" id="reservationForm" method="POST">
             <div class="form-group">
                 <label for="location">Số bàn</label>
-                <input list="locations" id="location" name="location" placeholder="Chọn hoặc nhập số bàn">
+                <input list="locations" id="location" name="table" placeholder="Chọn hoặc nhập số bàn">
                 <datalist id="locations">
                     <option value="1">
                     <option value="2">
