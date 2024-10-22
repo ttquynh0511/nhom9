@@ -81,7 +81,7 @@ $result = mysqli_query($conn, $sql);
 <body>
     <div class="admin_box">
         <div class="admin_box1">
-            <a href="http://localhost/quynh/component/home.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
+            <a href="http://localhost/quynh/component/ho1me.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
             <h1 class="h1_box">Table</h1>
         </div>
         <div class="admin_box2">
