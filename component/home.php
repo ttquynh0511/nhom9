@@ -8,7 +8,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $guests = $_POST['guests'];
 
     // Kiểm tra xem số bàn đã tồn tại trong cơ sở dữ liệu chưa
-    $check_sql = "SELECT * FROM tables WHERE table_num = '$table'";
+    $check_sql = "SELECT * FROM tables WHERE table_num = '$table' AND status = 1";
     $result = mysqli_query($conn, $check_sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -19,7 +19,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $sql = "INSERT INTO tables (table_num, seats) VALUES ('$table', '$guests')";
 
         if (mysqli_query($conn, $sql)) {
-            header("location: http://localhost/quynh/component/page.php");
+            $table_id = mysqli_insert_id($conn);
+            header("Location: http://localhost/quynh/component/page.php?table_id=" . urlencode($table_id));
         } else {
             echo "Lỗi: " . mysqli_error($conn);
         }

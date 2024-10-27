@@ -2,10 +2,10 @@
 
 include('../configs/database.php');
 
-if (isset($_GET['table_num'])) {
-    $table_num = $_GET['table_num'];
+if (isset($_GET['table_id'])) {
+    $table_id = $_GET['table_id'];
 
-    $sql = "SELECT * FROM tables WHERE table_num = '$table_num'";
+    $sql = "SELECT * FROM tables WHERE table_id = '$table_id'";
     $result = mysqli_query($conn, $sql);
 
     if (mysqli_num_rows($result) > 0) {
@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $seats = $_POST['seats'];
     $reservation_time = $_POST['reservation_time'];
 
-    $sql = "UPDATE tables SET table_num='$new_table_num', seats='$seats', reservation_timestamp='$reservation_time' WHERE table_num='$table_num'";
+    $sql = "UPDATE tables SET table_num='$new_table_num', seats='$seats', reservation_timestamp='$reservation_time' WHERE table_id='$table_id'";
 
     if (mysqli_query($conn, $sql)) {
         header("Location: http://localhost/quynh/component/admin.php");

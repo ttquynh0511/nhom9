@@ -51,6 +51,62 @@ if (!empty($_SESSION['cart'])) {
         $totalPrice += $item['price'] * $item['quantity'];
     }
 }
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
+    $table_id = $_GET['table_id']; // Lấy ID bàn từ query string
+    $totalPrice = 0;
+
+    // Tính tổng giá trị đơn hàng
+    foreach ($_SESSION['cart'] as $item) {
+        $totalPrice += $item['price'] * $item['quantity'];
+    }
+
+    // Bước 1: Lưu đơn hàng vào bảng orders
+    // Bước 1: Lưu đơn hàng vào bảng orders
+    $sql_order = "INSERT INTO `order` (table_id, total_price) VALUES (?, ?)";
+    if ($stmt_order = $conn->prepare($sql_order)) {
+        $stmt_order->bind_param("id", $table_id, $totalPrice);
+        if ($stmt_order->execute()) {
+            // Lấy order_id vừa tạo
+            $order_id = $conn->insert_id;
+
+            // Bước 2: Lưu các sản phẩm vào bảng order_details
+            foreach ($_SESSION['cart'] as $id => $item) {
+                $menu_id = $id;
+                $quantity = $item['quantity'];
+                $price = $item['price'];
+                $sugar_level = 1; // Mặc định mức đường, có thể thay đổi theo yêu cầu
+                $ice_level = 1; // Mặc định mức đá, có thể thay đổi theo yêu cầu
+
+                $sql_item = "INSERT INTO order_details (menu_id, order_id, quantity, price, sugar_level, ice_level) 
+                         VALUES (?, ?, ?, ?, ?, ?)";
+                if ($stmt_item = $conn->prepare($sql_item)) {
+                    $stmt_item->bind_param("iiiiii", $menu_id, $order_id, $quantity, $price, $sugar_level, $ice_level);
+                    $stmt_item->execute();
+                } else {
+                    echo "Lỗi khi chuẩn bị truy vấn chi tiết đơn hàng: " . $conn->error;
+                }
+            }
+
+            // Bước 3: Cập nhật trạng thái bàn trong bảng tables
+            $sql_update_table = "UPDATE tables SET status = 1 WHERE table_id = ?";
+            if ($stmt_update = $conn->prepare($sql_update_table)) {
+                $stmt_update->bind_param("i", $table_id);
+                $stmt_update->execute();
+            } else {
+                echo "Lỗi khi cập nhật trạng thái bàn: " . $conn->error;
+            }
+
+            // Xóa giỏ hàng sau khi đặt hàng thành công
+            unset($_SESSION['cart']);
+            echo "<script>alert('Đặt hàng thành công!'); window.location.href = 'http://localhost/quynh/component/home.php';</script>";
+        } else {
+            echo "Lỗi khi thực thi truy vấn đơn hàng: " . $conn->error;
+        }
+    } else {
+        echo "Lỗi khi chuẩn bị truy vấn đơn hàng: " . $conn->error;
+    }
+}
+
 ?>
 
 
@@ -60,6 +116,7 @@ if (!empty($_SESSION['cart'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>Document</title>
     <style>
         .box {
@@ -283,6 +340,7 @@ if (!empty($_SESSION['cart'])) {
 <body>
     <div class="box">
         <div class="box1">
+            <a href="http://localhost/quynh/component/home.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
             <div class="box11">
                 <img src="../img/Remove-bg.ai_1729216392878.png" />
             </div>
@@ -357,7 +415,9 @@ if (!empty($_SESSION['cart'])) {
                     <p>Tổng cộng:</p>
                     <p class="total-price"><?php echo $totalPrice; ?>₫</p>
                 </div>
-                <button class="order-btn">ĐẶT HÀNG</button>
+                <form action="" method="POST">
+                    <button type="submit" name="place_order" class="order-btn">ĐẶT HÀNG</button>
+                </form>
             </div>
         </div>
     </div>

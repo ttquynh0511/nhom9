@@ -2,7 +2,7 @@
 
 include('../configs/database.php');
 
-$sql = "SELECT * FROM tables";
+$sql = "SELECT * FROM tables WHERE status=1";
 $result = mysqli_query($conn, $sql);
 ?>
 <!DOCTYPE html>
@@ -106,10 +106,10 @@ $result = mysqli_query($conn, $sql);
                                 <td><?php echo $row["seats"] ?></td>
                                 <td><?php echo $row["reservation_timestamp"] ?></td>
                                 <td class="action-buttons">
-                                    <a href="http://localhost/quynh/component/edit.php?table_num=<?php echo $row['table_num']; ?>">
+                                    <a href="http://localhost/quynh/component/edit.php?table_id=<?php echo $row['table_id']; ?>">
                                         <button class="edit">Sửa</button>
                                     </a>
-                                    <a href="http://localhost/quynh/component/delete.php?table_num=<?php echo $row['table_num']; ?>" onclick="return confirm('Bạn có chắc muốn xóa bàn này?')">
+                                    <a href="http://localhost/quynh/component/delete.php?table_id=<?php echo $row['table_id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa bàn này?')">
                                         <button class="delete">Xóa</button>
                                     </a>
                                 </td>
