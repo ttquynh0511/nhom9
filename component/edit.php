@@ -24,7 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE tables SET table_num='$new_table_num', seats='$seats', reservation_timestamp='$reservation_time' WHERE table_id='$table_id'";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: http://localhost/quynh/component/admin.php");
+        header("Location: http://localhost/nhom9/component/admin.php");
     } else {
         echo "Lỗi: " . mysqli_error($conn);
     }

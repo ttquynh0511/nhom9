@@ -81,7 +81,7 @@ $result = mysqli_query($conn, $sql);
 <body>
     <div class="admin_box">
         <div class="admin_box1">
-            <a href="http://localhost/quynh/component/ho1me.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
+            <a href="http://localhost/nhom9/component/home.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
             <h1 class="h1_box">Table</h1>
         </div>
         <div class="admin_box2">
@@ -106,10 +106,10 @@ $result = mysqli_query($conn, $sql);
                                 <td><?php echo $row["seats"] ?></td>
                                 <td><?php echo $row["reservation_timestamp"] ?></td>
                                 <td class="action-buttons">
-                                    <a href="http://localhost/quynh/component/edit.php?table_id=<?php echo $row['table_id']; ?>">
+                                    <a href="http://localhost/nhom9/component/edit.php?table_id=<?php echo $row['table_id']; ?>">
                                         <button class="edit">Sửa</button>
                                     </a>
-                                    <a href="http://localhost/quynh/component/delete.php?table_id=<?php echo $row['table_id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa bàn này?')">
+                                    <a href="http://localhost/nhom9/component/delete.php?table_id=<?php echo $row['table_id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa bàn này?')">
                                         <button class="delete">Xóa</button>
                                     </a>
                                 </td>

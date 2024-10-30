@@ -10,7 +10,7 @@ SET status=0
 WHERE table_id=$table_id";
 
     if (mysqli_query($conn, $sql)) {
-        header("Location: http://localhost/quynh/component/admin.php");
+        header("Location: http://localhost/nhom9/component/admin.php");
     } else {
         echo "Lỗi: " . mysqli_error($conn);
     }

@@ -77,10 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
                 $sugar_level = 1; // Mặc định mức đường, có thể thay đổi theo yêu cầu
                 $ice_level = 1; // Mặc định mức đá, có thể thay đổi theo yêu cầu
 
-                $sql_item = "INSERT INTO order_details (menu_id, order_id, quantity, price, sugar_level, ice_level) 
-                         VALUES (?, ?, ?, ?, ?, ?)";
+                $sql_item = "INSERT INTO order_details (menu_id, order_id, quantity, price) 
+                         VALUES (?, ?, ?, ?)";
                 if ($stmt_item = $conn->prepare($sql_item)) {
-                    $stmt_item->bind_param("iiiiii", $menu_id, $order_id, $quantity, $price, $sugar_level, $ice_level);
+                    $stmt_item->bind_param("iiii", $menu_id, $order_id, $quantity, $price);
                     $stmt_item->execute();
                 } else {
                     echo "Lỗi khi chuẩn bị truy vấn chi tiết đơn hàng: " . $conn->error;
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
 
             // Xóa giỏ hàng sau khi đặt hàng thành công
             unset($_SESSION['cart']);
-            echo "<script>alert('Đặt hàng thành công!'); window.location.href = 'http://localhost/quynh/component/home.php';</script>";
+            echo "<script>alert('Đặt hàng thành công!'); window.location.href = 'http://localhost/nhom9/component/home.php';</script>";
         } else {
             echo "Lỗi khi thực thi truy vấn đơn hàng: " . $conn->error;
         }
@@ -340,7 +340,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
 <body>
     <div class="box">
         <div class="box1">
-            <a href="http://localhost/quynh/component/home.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
+            <a href="http://localhost/nhom9/component/home.php" class="icon"> <i class="fa-solid fa-arrow-left"></i></a>
             <div class="box11">
                 <img src="../img/Remove-bg.ai_1729216392878.png" />
             </div>
@@ -360,7 +360,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['place_order'])) {
                 if ($result->num_rows > 0) {
                     while ($row = $result->fetch_assoc()) { ?>
                         <div class="menu-item">
-                            <img src="<?php echo $row["img"] ?>" alt="<?php echo $row["alt_text"] ?>">
+                            <img src="<?php echo $row['img'] ?>" alt="<?php echo $row["Alt_text"] ?>">
                             <div class="item-details">
                                 <h3><?php echo $row["name"] ?></h3>
                                 <p><?php echo $row["description"] ?></p>

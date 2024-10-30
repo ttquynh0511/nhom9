@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if (mysqli_query($conn, $sql)) {
             $table_id = mysqli_insert_id($conn);
-            header("Location: http://localhost/quynh/component/page.php?table_id=" . urlencode($table_id));
+            header("Location: http://localhost/nhom9/component/page.php?table_id=" . urlencode($table_id));
         } else {
             echo "Lỗi: " . mysqli_error($conn);
         }
@@ -174,8 +174,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <body>
     <div class="page">
-        <div class="admin"><a href="http://localhost/quynh/component/admin.php">Admin</a></div>
-        <div class="user"><a href="http://localhost/quynh/component/home.php">User</a></div>
+        <div class="admin"><a href="http://localhost/nhom9/component/admin.php">Admin</a></div>
+        <div class="user"><a href="http://localhost/nhom9/component/home.php">User</a></div>
     </div>
     <div class="main">
         <div class="title">
