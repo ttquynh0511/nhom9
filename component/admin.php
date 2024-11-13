@@ -76,6 +76,14 @@ $result = mysqli_query($conn, $sql);
             color: black;
         }
     </style>
+        <script>
+        function completeOrder(buttonId) {
+            if (confirm('Đã hoàn thành đơn và đã thông báo cho khách')) {
+                document.getElementById(buttonId).style.display = 'none'; // Ẩn nút "Hoàn thành"
+            }
+        }
+        
+    </script>
 </head>
 
 <body>
@@ -112,6 +120,12 @@ $result = mysqli_query($conn, $sql);
                                     <a href="http://localhost/nhom9/component/delete.php?table_id=<?php echo $row['table_id']; ?>" onclick="return confirm('Bạn có chắc muốn xóa bàn này?')">
                                         <button class="delete">Xóa</button>
                                     </a>
+                                    <a href="#" onclick="completeOrder('buttonId')" id="buttonId">
+                                        <button class="edit">Hoàn thành</button>
+                                    </a>
+                                    <a href="http://localhost/nhom9/component/open.php?table_id=<?php echo $row['table_id']; ?>">
+                                        <button class="delete">Xem đơn</button>
+                                    </a>
                                 </td>
                             </tr>
                     <?php
@@ -122,6 +136,7 @@ $result = mysqli_query($conn, $sql);
                 </tbody>
             </table>
         </div>
+        
     </div>
 </body>
 
